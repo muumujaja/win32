@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - win
+  workflow_run:
+    workflows: ["Triggering Workflow"]
+    types:
+      - completed
 
 jobs:
   build:
