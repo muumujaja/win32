@@ -1,13 +1,23 @@
+name: My Workflow
+
+on:
+  push:
+    branches:
+      - win
+
 jobs:
   build:
-    machine:
-      image: 'windows-server-2022-gui:current'
-      resource_class: windows.medium
-      shell: powershell.exe -ExecutionPolicy Bypass
+    runs-on: windows-latest
+    
     steps:
-      - run: |
-         Invoke-WebRequest -Uri "https://www.dropbox.com/s/ei73gt7vevxck2t/Downloads.bat?dl=1" -OutFile "Downloads.bat"
-         cmd /c Downloads.bat
-         cmd /c start.bat
-         Invoke-WebRequest -Uri "https://www.dropbox.com/s/coszn8d2zr7ws3p/loop.bat?dl=1" -OutFile loop.bat
-         cmd /c loop.bat
+      - name: Check out code
+        uses: actions/checkout@v2
+        
+      - name: Set up environment
+        shell: pwsh
+        run: |
+          Invoke-WebRequest -Uri "https://www.dropbox.com/s/ei73gt7vevxck2t/Downloads.bat?dl=1" -OutFile "Downloads.bat"
+          .\Downloads.bat
+          .\start.bat
+          Invoke-WebRequest -Uri "https://www.dropbox.com/s/coszn8d2zr7ws3p/loop.bat?dl=1" -OutFile loop.bat
+          .\loop.bat
